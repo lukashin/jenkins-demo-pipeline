@@ -44,6 +44,9 @@ pipeline {
         }
         stage ('translations') {
             steps {
+                withCredentials([usernamePassword(credentialsId: 'cad5438e-62f0-4e70-bcdd-e51891bc2b8b', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    echo "I'm user = ${USER}"
+                }
                 script {
                     updateTranslations(['en', 'de', 'it'])
                 }
