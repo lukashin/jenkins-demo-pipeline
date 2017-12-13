@@ -48,6 +48,7 @@ pipeline {
                     def urls = http.download('https://raw.githubusercontent.com/lukashin/jenkins-demo-pipeline/master/cdn.urls')
                     urls.eachLine {
                         http.verify(it, currentVersion, previousVersion)
+                        println "${currentVersion} is present in ${it}"
                     }
                 }
             }
