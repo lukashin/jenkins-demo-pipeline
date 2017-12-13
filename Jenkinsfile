@@ -1,5 +1,3 @@
-
-
 pipeline {
     agent {
         label "master"
@@ -42,13 +40,15 @@ pipeline {
                 }
             }
         }
-        stage ('translations') {
+        stage ('cdn verify') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'cad5438e-62f0-4e70-bcdd-e51891bc2b8b', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    echo "I'm user = ${USER}"
-                }
                 script {
-                    updateTranslations(['en', 'de', 'it'])
+                    def currentVersion = '2.2.11-117';
+                    def previousVersion = '2.2.11-116';
+                    def urls = http.download('https://raw.githubusercontent.com/lukashin/jenkins-demo-pipeline/master/cdn.urls')
+                    urls.each {
+                        http.verify(it, currentVersion, previousVersion)
+                    }
                 }
             }
         }
