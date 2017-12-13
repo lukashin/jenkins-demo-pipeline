@@ -46,7 +46,7 @@ pipeline {
                     def currentVersion = '2.2.11-117';
                     def previousVersion = '2.2.11-116';
                     def urls = http.download('https://raw.githubusercontent.com/lukashin/jenkins-demo-pipeline/master/cdn.urls')
-                    urls.each {
+                    urls.eachLine {
                         http.verify(it, currentVersion, previousVersion)
                     }
                 }
